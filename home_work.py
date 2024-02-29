@@ -18,6 +18,15 @@ class Student:
 
     def get_average_grade_st(self):
         return sum(self.grades.values()) / len(self.grades.values())
+
+    def __lt__(self, study_1, study_2):
+        if study_1.get_average_grade_st < study_2.get_average_grade_st:
+            return f'Средняя оценка {study_2} больше чем средняя оценка {study_1}'
+        else:
+            return f'Средняя оценка {study_1} больше чем средняя оценка {study_2}'
+
+
+
     def __str__(self):
         return f'имя: {self.name}\nфамилия: {self.surname}' \
                f'\nсредняя оценка за домашнее задание: {self.get_average_grade_st}\n' \
@@ -43,6 +52,14 @@ class Lecturer(Mentor):
     def __str__(self):
         return f'имя: {self.name}\nфамилия: {self.surname}\nсредняя оценка за лекции: {self.get_average_grade_lc}'
 
+    def __lt__(self, lecturer_1, lecturer_2):
+        if lecturer_1.get_average_grade_lc < lecturer_2.get_average_grade_lc:
+            return f'Средняя оценка {lecturer_2} больше чем средняя оценка {lecturer_1}'
+        else:
+            return f'Средняя оценка {lecturer_1} больше чем средняя оценка {lecturer_2}'
+
+
+
 
 class Reviewer(Mentor):
     def rate_homework(self, student, course, grade):
@@ -56,14 +73,6 @@ class Reviewer(Mentor):
 
     def __str__(self):
         return f'имя: {self.name}\nфамилия: {self.surname}'
-
-
-class Comparisonn:
-    def __init__(self, value):
-        self.value = value
-
-    def __lt__(self, other):
-        return self.value < other.value
 
 
 # экземпляр класса Reviewer №1
@@ -113,10 +122,13 @@ print('Менторы')
 print(mentor_1)
 print(mentor_2)
 
-list_studentov = [student_1, student_2]
-list_lecturer = [lecturer_1, lecturer_2]
-l_course = 'Python'
 
-def comparison(list_people, name_course):
-    for i in list_people:
-
+list_st = [student_1, student_2]
+list_lec = [lecturer_1, lecturer_2]
+def comparison(list_in, course):
+    rating = 0
+    number_of_ratings = 0
+    for student in list_in:
+        rating = sum(student.grades.get(course, []))
+        number_of_ratings = len(student.grades.get(course, []))
+    return rating / number_of_ratings
